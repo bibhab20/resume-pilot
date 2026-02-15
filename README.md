@@ -16,21 +16,30 @@ ResumePilot is a career operations system for managing your resume, cover letter
 *   `cover_letter/`: Contains the main cover letter LaTeX project.
 *   `scripts/`: Shell scripts for managing updates, archiving, and other utilities.
 
-## Setup
-1.  Ensure you have a LaTeX distribution installed (e.g., TeX Live, MiKTeX).
-2.  Install the "LaTeX Workshop" extension for VS Code.
-3.  Configure `scripts/env.sh` with your local paths.
-4.  Make scripts executable: `chmod +x scripts/*.sh`
+## Development Setup
 
-## Usage
-### Building the Resume
-Open `resume/main.tex` in VS Code and use the LaTeX Workshop build command.
+### Prerequisites
+1.  **VS Code**: Install [Visual Studio Code](https://code.visualstudio.com/).
+2.  **LaTeX Distribution (MiKTeX)**:
+    -   Download and install [MiKTeX](https://miktex.org/download) for macOS.
+    -   During installation, ensure you select "Always install missing packages on-the-fly" to automatically handle dependencies.
+    -   After installation, open the MiKTeX Console to check for updates.
+3.  **VS Code Extension**:
+    -   Install the **LaTeX Workshop** extension by James Yu in VS Code.
 
-### Building the Cover Letter
-Open `cover_letter/main.tex` in VS Code and use the LaTeX Workshop build command.
+### Building with VS Code & LaTeX Workshop
+1.  **Open the Project**: Open the root `resume-pilot` folder in VS Code.
+2.  **Open a Main File**: Navigate to either `resume/main.tex` or `cover_letter/main.tex` and open the file.
+3.  **Build**:
+    -   Save the file (Cmd+S) - strictly configured to auto-build on save by default.
+    -   Or open the LaTeX Workshop side panel (icon with `TEX`) and click "Build LaTeX project".
+    -   Or use the shortcut `Cmd+Option+B`.
+4.  **View PDF**:
+    -   Click "View LaTeX PDF" in the side panel.
+    -   Or use the shortcut `Cmd+Option+V`.
 
-### Updating and Archiving
-Use `scripts/update.sh` to commit changes and archive the generated PDF.
-```bash
-./scripts/update.sh "Your commit message"
-```
+### Building with Shell Scripts
+You can also use the included scripts for compiling:
+
+-   **Resume**: `./scripts/update.sh resume`
+-   **Cover Letter**: `./scripts/update.sh cover_letter`
