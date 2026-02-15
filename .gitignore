@@ -1,0 +1,24 @@
+# LaTeX Build Artifacts
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+*.toc
+*.lot
+*.lof
+*.bbl
+*.blg
+
+# Generated PDFs
+*.pdf
+
+# System Files
+.DS_Store
+.DS_Store?
+
+# IDEs
+.idea/
+.vscode/
+*.swp
