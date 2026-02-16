@@ -22,3 +22,7 @@
 .idea/
 .vscode/
 *.swp
+
+# Config
+scripts/config.json
+

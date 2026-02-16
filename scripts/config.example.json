@@ -1,0 +1,11 @@
+{
+    "resume_archive_path": "/path/to/resume/archive",
+    "cover_letter_archive_path": "/path/to/cover_letter/archive",
+    "output_path": "/path/to/output",
+    "resume_output_name": "Resume_Bibhab_Pattnayak",
+    "cover_letter_output_name": "Cover_Letter_Bibhab_Pattnayak",
+    "notion_token": "your_notion_token_here",
+    "resume_database_id": "your_resume_database_id_here",
+    "cover_letter_database_id": "your_cover_letter_database_id_here",
+    "device_name": "Bibhab's MacBook Pro"
+}

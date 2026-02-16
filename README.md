@@ -43,3 +43,88 @@ You can also use the included scripts for compiling:
 
 -   **Resume**: `./scripts/update.sh resume`
 -   **Cover Letter**: `./scripts/update.sh cover_letter`
+
+### Version Tracking
+You can automatically build, archive, and commit versions of your resume and cover letter using the `release.py` script.
+
+#### Prerequisites
+1.  **Notion Integration**:
+    -   Create a Notion Integration and get the **Internal Integration Token**.
+    -   Share your databases with this integration.
+2.  **Notion Databases Setup**:
+    You need to create two separate databases in Notion: one for **Resume Versions** and one for **Cover Letter Versions**.
+    
+    For **EACH** database, add the following properties with the exact names and types:
+    
+    | Property Name | Type | Description |
+    | :--- | :--- | :--- |
+    | `Name` | **Title** | The default title property. |
+    | `Created Time` | **Date** | Date and time of the version. |
+    | `Device` | **Select** | The device where the version was created. |
+    | `Commit message` | **Text** | The git commit message or description (Select "Text" or "Rich Text"). |
+    | `Git Branch` | **Text** | The git branch name (Select "Text" or "Rich Text"). |
+    | `Commit ID` | **Text** | The git commit hash (Select "Text" or "Rich Text"). |
+
+    **Naming Convention**:
+    The generated PDF filename follows this pattern:
+    `[Prefix]_[Sanitized_Commit_Message]_[Timestamp].pdf`
+    
+    -   **Prefix**: Configured in `config.json` (e.g., `Resume_Bibhab_Pattnayak`).
+    -   **Sanitized Commit Message**: Spaces are replaced with underscores, special characters removed.
+    -   **Timestamp**: `YYYYMMDD_HHMMSS`.
+
+3.  **Python 3**: Ensure Python 3 is installed on your system.
+
+4.  **Virtual Environment**:
+    To avoid SSL errors and manage dependencies, set up a virtual environment:
+    ```bash
+    ./scripts/setup_env.sh
+    source venv/bin/activate
+    ```
+    Always run `source venv/bin/activate` before running the tracking scripts.
+
+#### Configuration
+1.  **Setup**:
+
+    -   Copy `scripts/config.example.json` to `scripts/config.json`.
+    -   Fill in your paths, Notion token, and database IDs.
+
+2.  **Validation**:
+    Verify your setup by running:
+    
+    ```bash
+    python3 scripts/validate_notion.py
+    ```
+
+3.  **Usage**:
+    Run the script from the project root:
+
+    ```bash
+    # Track Resume changes
+    ./scripts/release.sh --type resume
+
+    # Track Cover Letter changes
+    ./scripts/release.sh --type cover_letter
+
+    # Force a version creation even without changes
+    ./scripts/release.sh --type resume --force
+    
+    # Get the current version name from the output PDF
+    python3 scripts/get_version.py --type resume
+    ```
+
+    ### Key Features
+    -   **Atomic Updates**: The script ensures that updating the output file, archiving, and creating a Notion entry happen as a single transaction. If any step fails (e.g., Notion API error), changes are rolled back to prevent inconsistent states.
+    -   **Smart Git Commits**: The script only creates a git commit if there are actual changes in the source files. If you run the script without changes, it will update the build artifacts but skip the commit (unless forced).
+    -   **PDF Metadata**: The generated PDF will have its metadata (Subject/Version) updated with the version name, making it easier to track file versions externally.
+
+    The script workflow:
+    1.  Checks for git changes in the target directory (Exits if none, unless `--force`).
+    2.  Builds the PDF.
+    3.  **Atomic Transaction**:
+        -   Archives the PDF with a timestamp (e.g., `Resume_YYYYMMDD_HHMMSS.pdf`).
+        -   Updates the "latest" PDF in your output directory (with backup/restore on failure).
+        -   Updates PDF metadata with version info.
+        -   Creates a new entry in your Notion database.
+    4.  Commits changes to Git with a message (default: timestamp).
+

@@ -19,5 +19,3 @@ else
     echo "Usage: $0 [resume|cover_letter]"
     exit 1
 fi
-
-echo "Done."
